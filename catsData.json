@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Cat Cannon",
+    "rarity": 3,
+    "power": 1500,
+    "scaling": "High",
+    "description": "Powerful cannon that blasts enemies.",
+    "image": "images/cat_cannon.png"
+  },
+  {
+    "name": "Tank Cat",
+    "rarity": 2,
+    "power": 900,
+    "scaling": "Medium",
+    "description": "Heavy tank-like cat with strong defense.",
+    "image": "images/tank_cat.png"
+  },
+  {
+    "name": "Axe Cat",
+    "rarity": 1,
+    "power": 500,
+    "scaling": "Low",
+    "description": "Basic axe-wielding cat with balanced stats.",
+    "image": "images/axe_cat.png"
+  }
+]
