@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>C.A.T.S Buddy</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <h1>C.A.T.S Buddy</h1>
+  <p><em>Disclaimer: C.A.T.S Buddy is not an official tool. The contents are best-effort and may contain errors. This site is no longer maintained.</em></p>
+
+  <div class="controls">
+    <label for="sort">Sort by:</label>
+    <select id="sort">
+      <option value="name">Name</option>
+      <option value="rarity">Rarity</option>
+      <option value="power">Power</option>
+    </select>
+
+    <label for="order">Order:</label>
+    <select id="order">
+      <option value="asc">Ascending</option>
+      <option value="desc">Descending</option>
+    </select>
+  </div>
+
+  <div id="catList" class="cat-list"></div>
+
+  <script>
+    let cats = [];
+
+    async function loadCats() {
+      try {
+        const res = await fetch('catsData.json');
+        cats = await res.json();
+        renderCats();
+      } catch (e) {
+        document.getElementById('catList').innerText = 'Failed to load cat data.';
+      }
+    }
+
+    function renderCats() {
+      const catList = document.getElementById('catList');
+      const sortKey = document.getElementById('sort').value;
+      const order = document.getElementById('order').value;
+
+      const sortedCats = [...cats].sort((a, b) => {
+        if (sortKey === 'name') {
+          return order === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+        } else {
+          return order === 'asc' ? a[sortKey] - b[sortKey] : b[sortKey] - a[sortKey];
+        }
+      });
+
+      catList.innerHTML = '';
+      for (const cat of sortedCats) {
+        const card = document.createElement('div');
+        card.className = 'cat-card';
+        card.innerHTML = `
+          <img src="${cat.image}" alt="${cat.name}" />
+          <h3>${cat.name}</h3>
+          <p><strong>Rarity:</strong> ${cat.rarity}</p>
+          <p><strong>Power:</strong> ${cat.power}</p>
+          <p><strong>Scaling:</strong> ${cat.scaling}</p>
+          <p>${cat.description}</p>
+        `;
+        catList.appendChild(card);
+      }
+    }
+
+    document.getElementById('sort').addEventListener('change', renderCats);
